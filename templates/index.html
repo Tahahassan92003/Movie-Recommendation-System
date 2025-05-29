@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #4CAF50;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 80%;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"], input[type="number"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #4CAF50;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .genres-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 14px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .recommendations {
+            margin-top: 30px;
+            width: 80%;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .recommendations ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .recommendations li:hover {
+            background-color: #f7f7f7;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .genres-checkboxes {
+                flex-direction: column;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            input[type="text"], input[type="number"] {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Recommendation System</h1>
+
+    <!-- Form for taking user inputs -->
+    <form action="/recommend" method="POST">
+        <label for="user_id">User ID:</label>
+        <input type="text" id="user_id" name="user_id" required><br>
+
+        <label>Select Genres:</label>
+        <div class="genres-checkboxes">
+            {% for genre in genres %}
+                <label>
+                    <input type="checkbox" name="genres" value="{{ genre }}"> {{ genre }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <label for="top_n">Top N Recommendations:</label>
+        <input type="number" id="top_n" name="top_n" min="1" max="20" value="10" required><br>
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if recommendations %}
+        <div class="recommendations">
+            <h2>Recommended Movies:</h2>
+            <ul>
+                {% for movie in recommendations %}
+                    <li>{{ movie.title }} - Genres: {{ movie.genres }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% elif error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
