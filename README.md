@@ -2,6 +2,6 @@
 
 
 # Contributor
-k213433@nu.edu.pk Syed Mohammad Daniyal Haider Naqvi
+k213433@nu.edu.pk Syed Mohammad Daniyal Haider Naqvi /n
 k214680@nu.edu.pk Syed Mohammad Taha Hassan 
 k214568@nu.edu.pk Mohammad Ali
